@@ -1,0 +1,29 @@
+<svg width="256" height="256" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="iconGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#cc3558"/>
+      <stop offset="100%" stop-color="#e4476c"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background circle -->
+  <circle
+    cx="128"
+    cy="128"
+    r="120"
+    fill="#040556"
+  />
+
+  <!-- Question mark -->
+  <text
+    x="128"
+    y="165"
+    text-anchor="middle"
+    font-size="160"
+    font-weight="900"
+    fill="url(#iconGradient)"
+    font-family="Arial, Helvetica, sans-serif"
+  >
+    ?
+  </text>
+</svg>

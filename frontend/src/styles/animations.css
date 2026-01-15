@@ -1,0 +1,43 @@
+@keyframes gradient-xy {
+    0%,
+    100% {
+        background-position: 0% 0%;
+    }
+    50% {
+        background-position: 100% 100%;
+    }
+}
+
+@keyframes searchbar-slide-up {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-40px);
+    }
+}
+
+@keyframes typing-dot {
+    0%,
+    100% {
+        opacity: 0.2;
+        transform: translateY(0);
+    }
+    50% {
+        opacity: 1;
+        transform: translateY(-3px);
+    }
+}
+
+@utility animate-typing-dot {
+    animation: typing-dot 1s infinite ease-in-out;
+}
+
+@utility animate-gradient {
+    animation: gradient-xy 8s ease infinite;
+    background-size: 200% 200%;
+}
+
+@utility animate-searchbar-up {
+    animation: searchbar-slide-up 0.7s ease-out forwards;
+}

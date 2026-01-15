@@ -1,0 +1,48 @@
+@utility text-primary {
+    color: var(--primary);
+}
+
+@utility text-secondary {
+    color: var(--secondary);
+}
+
+@utility text-muted {
+    color: var(--muted);
+}
+
+@utility bg-background {
+    background-color: var(--background);
+}
+
+@utility bg-card {
+    background-color: var(--card);
+}
+
+@utility highlight {
+    background-color: var(--highlight);
+}
+
+@utility highlight-hover {
+    background-color: var(--highlight-hover);
+}
+
+@utility hero-bg {
+    @apply bg-linear-to-br 
+           from-[var(--background)]
+           via-[var(--card)]
+           to-[var(--highlight)]
+           animate-gradient;
+}
+
+@utility cta-button {
+    @apply px-8! h-16! text-xl! 
+           highlight 
+           text-primary       
+           font-semibold
+           cursor-pointer
+           rounded-r-full!
+           hover:highlight-hover
+           transition-all duration-200
+           backdrop-blur-xl
+           border border-white/10;
+}
