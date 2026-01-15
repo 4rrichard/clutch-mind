@@ -9,7 +9,7 @@ function AiRecommendButton({ onClick }) {
                 transition-all duration-150 cursor-pointer"
             onClick={onClick}
         >
-            Recommend games
+            Recommend decisions
         </button>
     );
 }

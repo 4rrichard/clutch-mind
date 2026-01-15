@@ -41,11 +41,11 @@ function HeroSection() {
                     }`}
                 >
                     <h1 className="text-7xl text-primary font-bold drop-shadow">
-                        What-Now?
+                        Clutch Mind
                     </h1>
 
                     <p className="text-secondary text-xl max-w-xl mx-auto">
-                        Find the perfect game based on your mood.
+                        Find the perfect decision for a certain scenario.
                     </p>
                 </div>
 

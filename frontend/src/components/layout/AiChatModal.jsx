@@ -13,7 +13,7 @@ function AiChatModal({ isOpen, onClose }) {
     const { searchGames } = useContext(GameContext);
 
     const [messages, setMessages] = useState([
-        { sender: "ai", text: "Hi! What kind of game are you looking for?" },
+        { sender: "ai", text: "Hi! how can I help you?" },
     ]);
 
     useEffect(() => {
@@ -58,7 +58,7 @@ function AiChatModal({ isOpen, onClose }) {
             >
                 <DialogHeader className="text-center">
                     <DialogTitle className="text-xl text-white">
-                        AI Game Assistant
+                        AI Basketball Assistant
                     </DialogTitle>
                 </DialogHeader>
                 <div className="flex flex-col h-[480px]">

@@ -16,7 +16,7 @@ function SearchInput({ value, setValue }) {
                 focus:placeholder:opacity-0
                 
             "
-            placeholder="What do you feel like playing?"
+            placeholder="Describe a basketball situation (e.g., down 2, 12s left, tight defense)"
             value={value}
             onChange={(e) => setValue(e.target.value)}
         />
