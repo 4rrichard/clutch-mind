@@ -1,8 +1,8 @@
-import GameContext from "../../context/GameProvider";
+import DecisionContext from "../../context/DecisionProvider";
 import React, { useContext } from "react";
 
-function GameRequest() {
-    const { summary } = useContext(GameContext);
+function DecisionRequest() {
+    const { summary } = useContext(DecisionContext);
 
     return (
         <div className="flex content-start text-secondary text-lg mt-4">
@@ -15,4 +15,4 @@ function GameRequest() {
     );
 }
 
-export default GameRequest;
+export default DecisionRequest;

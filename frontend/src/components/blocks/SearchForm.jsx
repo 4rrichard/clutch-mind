@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import SearchInput from "./SearchInput";
 import SearchButton from "./SearchButton";
-import GameRequest from "./GameRequest";
+import GameRequest from "./DecisionRequest";
 import AiChatOpenButton from "./AiChatOpenButton";
 
 function SearchForm({ onSearch, onOpenChat }) {

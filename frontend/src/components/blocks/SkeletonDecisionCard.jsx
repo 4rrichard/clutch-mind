@@ -1,6 +1,6 @@
 import { Skeleton } from "@/components/ui/skeleton";
 
-function SkeletonGameCard() {
+function SkeletonDecisionCard() {
     return (
         <div className="min-w-[340px]">
             <Skeleton className="aspect-video w-full min-h-[180px] rounded-xl bg-white/10 animate-pulse" />
@@ -19,4 +19,4 @@ function SkeletonGameCard() {
     );
 }
 
-export default SkeletonGameCard;
+export default SkeletonDecisionCard;

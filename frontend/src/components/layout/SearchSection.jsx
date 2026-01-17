@@ -1,6 +1,6 @@
 import React from "react";
 import SearchForm from "../blocks/SearchForm";
-import GameRequest from "../blocks/GameRequest";
+import GameRequest from "../blocks/DecisionRequest";
 
 function SearchSection({ onSearch, onOpenChat }) {
     return (

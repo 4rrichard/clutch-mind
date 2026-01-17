@@ -1,12 +1,12 @@
 import { useContext, useState } from "react";
-import GameCarousel from "./GameCarousel";
-import SkeletonGameCarousel from "./SkeletonGameCarousel";
+import DecisionCarousel from "./DecisionCarousel";
+import SkeletonDecisionCarousel from "./SkeletonDecisionCarousel";
 import SearchSection from "./SearchSection";
-import GameContext from "../../context/GameProvider";
+import DecisionContext from "../../context/DecisionProvider";
 import AiChatModal from "./AiChatModal";
 
 function HeroSection() {
-    const { searchGames } = useContext(GameContext);
+    const { recommendDecisions } = useContext(DecisionContext);
     const [isSearching, setIsSearching] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [isChatOpen, setIsChatOpen] = useState(false);
@@ -17,7 +17,7 @@ function HeroSection() {
         setIsLoading(true);
         //setSearchValue(value);
 
-        await searchGames(value);
+        await recommendDecisions(value);
         // setTimeout(() => {
         //     setIsLoading(false);
         // }, 1200);
@@ -66,10 +66,10 @@ function HeroSection() {
                 {isSearching && (
                     <div className="mt-10 w-full flex flex-col justify-center">
                         {isLoading ? (
-                            <SkeletonGameCarousel />
+                            <SkeletonDecisionCarousel />
                         ) : (
                             <div className=" w-full">
-                                <GameCarousel />
+                                <DecisionCarousel />
                             </div>
                         )}
                     </div>

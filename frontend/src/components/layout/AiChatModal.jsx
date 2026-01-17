@@ -7,10 +7,10 @@ import {
 } from "@/components/ui/dialog";
 import AiChatInput from "../blocks/AiChatInput";
 import AiChatConversation from "../blocks/AiChatConversation";
-import GameContext from "../../context/GameProvider";
+import DecisionContext from "../../context/DecisionProvider";
 
 function AiChatModal({ isOpen, onClose }) {
-    const { searchGames } = useContext(GameContext);
+    const { recommendDecisions } = useContext(DecisionContext);
 
     const [messages, setMessages] = useState([
         { sender: "ai", text: "Hi! how can I help you?" },
@@ -47,7 +47,7 @@ function AiChatModal({ isOpen, onClose }) {
 
     const handleAiRecommend = (text) => {
         onClose();
-        searchGames(text);
+        recommendDecisions(text);
     };
 
     return (

@@ -2,12 +2,12 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.jsx";
-import { GameProvider } from "./context/GameProvider";
+import { DecisionProvider } from "./context/DecisionProvider";
 
 createRoot(document.getElementById("root")).render(
     <StrictMode>
-        <GameProvider>
+        <DecisionProvider>
             <App />
-        </GameProvider>
+        </DecisionProvider>
     </StrictMode>
 );

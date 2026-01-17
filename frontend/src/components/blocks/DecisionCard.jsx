@@ -8,9 +8,7 @@ import {
     CardFooter,
 } from "@/components/ui/card";
 
-// import gameImg from "../../assets/rock-bg.jpg";
-
-const GameCard = ({ gameData }) => {
+const DecisionCard = ({ gameData }) => {
     return (
         <Card className="w-full h-full pt-0 text-primary bg-card cursor-pointer">
             <CardContent className="px-0 relative">
@@ -27,14 +25,9 @@ const GameCard = ({ gameData }) => {
             </CardContent>
             <CardHeader className="select-none overflow-hidden line-clamp-2 whitespace-normal">
                 <CardTitle>{gameData.title}</CardTitle>
-                {/* <CardDescription>{gameData.rating}</CardDescription> */}
             </CardHeader>
-            {/* <CardFooter className="gap-3 max-sm:flex-col max-sm:items-stretch">
-                <Button>Save to Favorites</Button>
-                <Button variant={"outline"}>More Details</Button>
-            </CardFooter> */}
         </Card>
     );
 };
 
-export default GameCard;
+export default DecisionCard;

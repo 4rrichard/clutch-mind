@@ -1,24 +1,25 @@
 import React, { useContext, useState } from "react";
-import GameCard from "../blocks/GameCard";
-import GameContext from "../../context/GameProvider";
+import DecisionCard from "../blocks/DecisionCard";
+import DecisionContext from "../../context/DecisionProvider";
 import { ArrowBigLeft, ArrowBigRight } from "lucide-react";
 
-function GameCarousel() {
-    const { games } = useContext(GameContext);
+function DecisionCarousel() {
+    const { decisions } = useContext(DecisionContext);
     const [selectedIndex, setSelectedIndex] = useState(0);
 
     const moveToSelected = (direction) => {
         if (direction === "next") {
-            setSelectedIndex((prev) => (prev + 1) % games.length);
+            setSelectedIndex((prev) => (prev + 1) % decisions.length);
         } else {
             setSelectedIndex((prev) =>
-                prev === 0 ? games.length - 1 : prev - 1
+                prev === 0 ? decisions.length - 1 : prev - 1
             );
         }
     };
 
     const getSlideClasses = (index) => {
-        const relative = (index - selectedIndex + games.length) % games.length;
+        const relative =
+            (index - selectedIndex + decisions.length) % decisions.length;
 
         // CENTER
         if (relative === 0)
@@ -33,27 +34,27 @@ function GameCarousel() {
             return "absolute top-1/2 left-[60%] -translate-x-1/2 -translate-y-1/2 w-[220px] h-[220px] -translate-y-[15%] z-5 scale-75 opacity-50 blur-sm transition-all duration-700 pointer-events-none";
 
         // LEFT 1
-        if (relative === games.length - 1)
+        if (relative === decisions.length - 1)
             return "absolute top-1/2 left-[28%] -translate-x-1/2 -translate-y-1/2 w-[260px] h-[260px] z-10 scale-90 opacity-80 blur-[1px] transition-all duration-700 pointer-events-none text-lg";
 
         // LEFT 2
-        if (relative === games.length - 2)
+        if (relative === decisions.length - 2)
             return "absolute top-1/2 left-[40%] -translate-x-1/2 -translate-y-1/2 w-[220px] h-[220px] -translate-y-[15%] z-5 scale-75 opacity-50 blur-sm transition-all duration-700 pointer-events-none";
 
         // HIDDEN
         return "absolute opacity-0 pointer-events-none transition-all duration-700";
     };
 
-    if (!games || games.length === 0) {
+    if (!decisions || decisions.length === 0) {
         return <p className="text-center text-white">No games found.</p>;
     }
 
     return (
         <div className="relative w-full h-[540px] md:h-[620px] overflow-visible">
             <div className="relative h-[380px] w-full mt-5">
-                {games.map((game, index) => (
-                    <div key={game.id} className={getSlideClasses(index)}>
-                        <GameCard gameData={game} />
+                {decisions.map((decision, index) => (
+                    <div key={decision.id} className={getSlideClasses(index)}>
+                        <DecisionCard gameData={decision} />
                     </div>
                 ))}
             </div>
@@ -92,4 +93,4 @@ function GameCarousel() {
     );
 }
 
-export default GameCarousel;
+export default DecisionCarousel;
