@@ -1,31 +1,40 @@
-import { Button } from "@/components/ui/button";
-import {
-    Card,
-    CardContent,
-    CardHeader,
-    CardDescription,
-    CardTitle,
-    CardFooter,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
-const DecisionCard = ({ gameData }) => {
+const DecisionCard = ({ decision }) => {
     return (
-        <Card className="w-full h-full pt-0 text-primary bg-card cursor-pointer">
-            <CardContent className="px-0 relative">
-                <img
-                    src={gameData.image}
-                    alt="Banner"
-                    className="aspect-16/10 rounded-t-xl object-cover"
-                />
-                {gameData.match && (
-                    <div className="absolute top-2 left-2 bg-black/70 text-white text-xs px-2 py-1 rounded-md backdrop-blur select-none">
-                        {gameData.match}% Match
+        <Card className="w-full h-full pt-15 text-primary bg-card cursor-pointer">
+            <CardHeader className="select-none overflow-hidden whitespace-normal space-y-2">
+                <div className="flex items-start justify-between gap-2">
+                    <CardTitle className="line-clamp-2">
+                        {decision.title}
+                    </CardTitle>
+
+                    {decision.confidence && (
+                        <Badge variant="secondary" className="shrink-0">
+                            {decision.confidence}
+                        </Badge>
+                    )}
+                </div>
+
+                {decision.summary && (
+                    <p className="text-sm text-muted-foreground line-clamp-3">
+                        {decision.summary}
+                    </p>
+                )}
+            </CardHeader>
+
+            <CardContent className="pt-0">
+                {Array.isArray(decision.tags) && decision.tags.length > 0 && (
+                    <div className="flex flex-wrap gap-2">
+                        {decision.tags.slice(0, 4).map((tag, idx) => (
+                            <Badge key={`${tag}-${idx}`} variant="outline">
+                                {tag}
+                            </Badge>
+                        ))}
                     </div>
                 )}
             </CardContent>
-            <CardHeader className="select-none overflow-hidden line-clamp-2 whitespace-normal">
-                <CardTitle>{gameData.title}</CardTitle>
-            </CardHeader>
         </Card>
     );
 };

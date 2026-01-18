@@ -12,7 +12,7 @@ function DecisionCarousel() {
             setSelectedIndex((prev) => (prev + 1) % decisions.length);
         } else {
             setSelectedIndex((prev) =>
-                prev === 0 ? decisions.length - 1 : prev - 1
+                prev === 0 ? decisions.length - 1 : prev - 1,
             );
         }
     };
@@ -46,15 +46,18 @@ function DecisionCarousel() {
     };
 
     if (!decisions || decisions.length === 0) {
-        return <p className="text-center text-white">No games found.</p>;
+        return <p className="text-center text-white">No decisions yet.</p>;
     }
 
     return (
         <div className="relative w-full h-[540px] md:h-[620px] overflow-visible">
             <div className="relative h-[380px] w-full mt-5">
                 {decisions.map((decision, index) => (
-                    <div key={decision.id} className={getSlideClasses(index)}>
-                        <DecisionCard gameData={decision} />
+                    <div
+                        key={decision.title ?? index}
+                        className={getSlideClasses(index)}
+                    >
+                        <DecisionCard decision={decision} />
                     </div>
                 ))}
             </div>
