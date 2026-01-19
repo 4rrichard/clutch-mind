@@ -52,14 +52,23 @@ function DecisionCarousel() {
     return (
         <div className="relative w-full h-[540px] md:h-[620px] overflow-visible">
             <div className="relative h-[380px] w-full mt-5">
-                {decisions.map((decision, index) => (
-                    <div
-                        key={decision.title ?? index}
-                        className={getSlideClasses(index)}
-                    >
-                        <DecisionCard decision={decision} />
-                    </div>
-                ))}
+                {decisions.map((decision, index) => {
+                    const relative =
+                        (index - selectedIndex + decisions.length) %
+                        decisions.length;
+
+                    return (
+                        <div
+                            key={decision.title ?? index}
+                            className={getSlideClasses(index)}
+                        >
+                            <DecisionCard
+                                decision={decision}
+                                isActive={relative === 0}
+                            />
+                        </div>
+                    );
+                })}
             </div>
 
             <div className="absolute bottom-20 md:bottom-40 left-1/2 -translate-x-1/2 flex gap-30 z-50">

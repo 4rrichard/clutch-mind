@@ -58,20 +58,23 @@ export const DecisionProvider = ({ children }) => {
     const [summary, setSummary] = useState("");
     const [error, setError] = useState("");
 
-    const askAI = async (prompt) => {
-        const response = await fetch("/api/gemini/recommend", {
+    const askBackend = async (userInput) => {
+        const response = await fetch("/api/decision/recommend", {
             method: "POST",
-            headers: { "Content-Type": "text/plain" },
-            body: prompt,
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ userInput }),
         });
 
-        const text = await response.text();
+        const contentType = response.headers.get("content-type") || "";
 
         if (!response.ok) {
-            throw new Error(`Backend error ${response.status}: ${text}`);
+            const errorText = contentType.includes("application/json")
+                ? JSON.stringify(await response.json())
+                : await response.text();
+            throw new Error(`Backend error ${response.status}: ${errorText}`);
         }
 
-        return text;
+        return response.json();
     };
 
     const recommendDecisions = async (userInput) => {
@@ -84,23 +87,15 @@ export const DecisionProvider = ({ children }) => {
                 return;
             }
 
-            const aiResponse = await askAI(userInput);
-            if (!aiResponse) throw new Error("Empty AI response");
-
-            const clean = aiResponse
-                .replace(/```json/gi, "")
-                .replace(/```/g, "")
-                .trim();
-
-            console.log("Clean AI output:", clean);
-
-            const parsed = JSON.parse(clean);
+            const parsed = await askBackend(userInput);
 
             setSummary(parsed.summary || "");
             setDecisions(parsed.recommendations || []);
         } catch (e) {
             console.error(e);
             setError(e.message || "Unknown error");
+            setSummary("");
+            setDecisions([]);
         }
     };
 
