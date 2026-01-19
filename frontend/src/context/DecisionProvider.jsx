@@ -101,8 +101,6 @@ export const DecisionProvider = ({ children }) => {
         } catch (e) {
             console.error(e);
             setError(e.message || "Unknown error");
-            setSummary("");
-            setDecisions([]);
         }
     };
 

@@ -67,16 +67,7 @@ function DecisionCarousel() {
                     onClick={() => moveToSelected("prev")}
                     className="text-white text-3xl"
                 >
-                    <ArrowBigLeft
-                        className="
-        w-15 h-15
-        stroke-white 
-        hover:fill-white hover:stroke-white 
-        hover:drop-shadow-[0_0_6px_rgba(255,255,255,0.7)]
-        transition-all duration-300
-        cursor-pointer
-    "
-                    />
+                    <ArrowBigLeft className="w-15 h-15 stroke-white hover:fill-white hover:stroke-white hover:drop-shadow-[0_0_6px_rgba(255,255,255,0.7)] transition-all duration-300 cursor-pointer" />
                 </button>
                 <button
                     onClick={() => moveToSelected("next")}

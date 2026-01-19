@@ -15,13 +15,12 @@ function HeroSection() {
     async function handleSearch(value) {
         setIsSearching(true);
         setIsLoading(true);
-        //setSearchValue(value);
 
-        await recommendDecisions(value);
-        // setTimeout(() => {
-        //     setIsLoading(false);
-        // }, 1200);
-        setIsLoading(false);
+        try {
+            await recommendDecisions(value);
+        } finally {
+            setIsLoading(false);
+        }
     }
 
     return (
