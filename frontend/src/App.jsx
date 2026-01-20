@@ -3,9 +3,10 @@ import NavBar from "./components/layout/NavBar";
 import Footer from "./components/layout/Footer";
 
 function App() {
+    const DEMO_MODE = true;
     return (
         <>
-            <NavBar />
+            {!DEMO_MODE && <NavBar />}
             <HeroSection />
             <Footer />
         </>

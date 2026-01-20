@@ -68,9 +68,15 @@ export const DecisionProvider = ({ children }) => {
         const contentType = response.headers.get("content-type") || "";
 
         if (!response.ok) {
-            const errorText = contentType.includes("application/json")
-                ? JSON.stringify(await response.json())
-                : await response.text();
+            let errorText = "";
+
+            if (contentType.includes("application/json")) {
+                const body = await response.json();
+                errorText = body.error || body.message || JSON.stringify(body);
+            } else {
+                errorText = await response.text();
+            }
+
             throw new Error(`Backend error ${response.status}: ${errorText}`);
         }
 
@@ -78,6 +84,14 @@ export const DecisionProvider = ({ children }) => {
     };
 
     const recommendDecisions = async (userInput) => {
+        const q = (userInput ?? "").trim();
+        if (!q) {
+            setError(
+                "Please describe a scenario (e.g., 'down 2, 1 minute left, after timeout').",
+            );
+            return;
+        }
+
         try {
             setError("");
 
@@ -93,7 +107,17 @@ export const DecisionProvider = ({ children }) => {
             setDecisions(parsed.recommendations || []);
         } catch (e) {
             console.error(e);
-            setError(e.message || "Unknown error");
+
+            const msg = e.message || "Unknown error";
+
+            if (msg.includes("503")) {
+                setSummary(mockResponse.summary);
+                setDecisions(mockResponse.recommendations);
+                setError("AI is busy right now — showing demo results.");
+                return;
+            }
+
+            setError(msg);
             setSummary("");
             setDecisions([]);
         }

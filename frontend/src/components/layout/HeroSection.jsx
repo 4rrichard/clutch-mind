@@ -24,12 +24,12 @@ function HeroSection() {
     }
 
     return (
-        <section className="hero-bg flex min-h-screen  w-full">
+        <section className="hero-bg flex min-h-[100svh] sm:min-h-screen w-full pb-16 sm:pb-24 overflow-x-hidden">
             <div
-                className={`w-full flex flex-col justify-center content-center text-center transition-all duration-300${
+                className={`w-full flex flex-col justify-start sm:justify-center content-center text-center transition-all duration-300${
                     isSearching
                         ? "pt-32 justify-center overflow-y-hidden"
-                        : "pt-32"
+                        : "pt-16 sm:pt-24 md:pt-28 lg:pt-32"
                 }`}
             >
                 <div
@@ -48,31 +48,29 @@ function HeroSection() {
                     </p>
                 </div>
 
-                <div
-                    className={` w-full transition-all duration-700 ease-out transform-gpu
-        ${
-            isSearching
-                ? "opacity-100 scale-100"
-                : "translate-y-0 opacity-100 scale-100"
-        }`}
-                >
-                    <SearchSection
-                        onSearch={handleSearch}
-                        onOpenChat={() => setIsChatOpen(true)}
-                    />
-                </div>
-
-                {isSearching && (
-                    <div className="mt-10 w-full flex flex-col justify-center">
-                        {isLoading ? (
-                            <SkeletonDecisionCarousel />
-                        ) : (
-                            <div className=" w-full">
-                                <DecisionCarousel />
-                            </div>
-                        )}
+                <div className="w-full flex flex-col items-center gap-10 sm:gap-12 lg:gap-0">
+                    <div
+                        className={`w-full transition-all duration-700 ease-out transform-gpu
+    ${isSearching ? "opacity-100 scale-100" : "translate-y-0 opacity-100 scale-100"}`}
+                    >
+                        <SearchSection
+                            onSearch={handleSearch}
+                            onOpenChat={() => setIsChatOpen(true)}
+                        />
                     </div>
-                )}
+
+                    {isSearching && (
+                        <div className="w-full flex flex-col items-center mt-12 sm:mt-0">
+                            {isLoading ? (
+                                <SkeletonDecisionCarousel />
+                            ) : (
+                                <div className="w-full max-w-6xl px-4 sm:px-0">
+                                    <DecisionCarousel />
+                                </div>
+                            )}
+                        </div>
+                    )}
+                </div>
             </div>
             {isChatOpen && (
                 <AiChatModal

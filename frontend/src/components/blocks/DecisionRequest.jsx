@@ -7,10 +7,10 @@ function DecisionRequest() {
     if (!summary && !error) return null;
 
     return (
-        <div className="flex flex-col items-start text-secondary text-lg mt-4 gap-2">
+        <div className="mt-3 sm:mt-5 md:mt-6 flex flex-col gap-2 text-secondary text-sm sm:text-base">
             {summary && (
-                <p>
-                    Showing results for: <strong>{summary}</strong>
+                <p className="w-full text-left text-sm sm:text-base md:truncate md:whitespace-nowrap">
+                    Scenario: <strong>{summary}</strong>
                 </p>
             )}
 
