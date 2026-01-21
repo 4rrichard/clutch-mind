@@ -12,20 +12,32 @@ import DecisionContext from "../../context/DecisionProvider";
 function AiChatModal({ isOpen, onClose }) {
     const { recommendDecisions } = useContext(DecisionContext);
 
-    const [messages, setMessages] = useState([
-        { sender: "ai", text: "Hi! how can I help you?" },
-    ]);
+    const [messages, setMessages] = useState(() => {
+        const saved = localStorage.getItem("chat");
+        return saved
+            ? JSON.parse(saved)
+            : [{ sender: "ai", text: "Hi! how can I help you?" }];
+    });
 
     useEffect(() => {
         localStorage.setItem("chat", JSON.stringify(messages));
     }, [messages]);
 
-    const sendChatMessage = async (message) => {
+    const sendChatMessage = async (message, messages) => {
+        const lastTurns = messages.slice(-8).map((m) => ({
+            role: m.sender === "user" ? "user" : "assistant",
+            text: m.text || "",
+        }));
+
         const response = await fetch("/api/gemini/chat", {
             method: "POST",
-            headers: { "Content-Type": "text/plain" },
-            body: message,
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                message,
+                history: lastTurns,
+            }),
         });
+
         return await response.text();
     };
 
@@ -36,7 +48,7 @@ function AiChatModal({ isOpen, onClose }) {
             { sender: "ai", text: "", loading: true },
         ]);
 
-        const aiReply = await sendChatMessage(text);
+        const aiReply = await sendChatMessage(text, messages);
 
         setMessages((prev) => {
             const copy = [...prev];

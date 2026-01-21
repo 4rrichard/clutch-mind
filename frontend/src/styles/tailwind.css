@@ -3,11 +3,11 @@
 @import "./utilities.css";
 
 @theme {
-    --background: #040556;
-    --card: #0a0a78;
-    --highlight: #cc3558;
-    --highlight-hover: #e4476c;
+    --background: #0b1020;
+    --card: #121a33;
+    --highlight: #f07a1a;
+    --highlight-hover: #ff8a2a;
     --primary: #ffffff;
-    --secondary: #d1c4e9;
-    --muted: #f3f1ff;
+    --secondary: #cbd5e1;
+    --muted: #94a3b8;
 }

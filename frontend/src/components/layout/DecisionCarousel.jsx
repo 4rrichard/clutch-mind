@@ -78,14 +78,14 @@ function DecisionCarousel() {
             <div className="flex justify-center gap-10 mt-3 sm:mt-4">
                 <button
                     onClick={() => moveToSelected("prev")}
-                    className="text-white"
+                    className="text-white cursor-pointer"
                 >
                     <ArrowBigLeft className="w-10 h-10 sm:w-12 sm:h-12 stroke-white hover:fill-white hover:drop-shadow-[0_0_6px_rgba(255,255,255,0.7)] transition-all duration-300" />
                 </button>
 
                 <button
                     onClick={() => moveToSelected("next")}
-                    className="text-white"
+                    className="text-white cursor-pointer"
                 >
                     <ArrowBigRight className="w-10 h-10 sm:w-12 sm:h-12 stroke-white hover:fill-white hover:drop-shadow-[0_0_6px_rgba(255,255,255,0.7)] transition-all duration-300" />
                 </button>

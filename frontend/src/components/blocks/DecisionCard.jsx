@@ -82,7 +82,13 @@ const DecisionCard = ({ decision, isActive }) => {
                 }}
             >
                 <Card
-                    className="absolute inset-0 bg-card text-primary"
+                    className={`absolute inset-0 bg-card text-primary border-2 ${
+                        isActive
+                            ? "border-[color-mix(in_srgb,var(--highlight)_100%,transparent)]"
+                            : "border-white/10"
+                    }
+                transition-colors
+                `}
                     style={{ backfaceVisibility: "hidden" }}
                 >
                     <div className="p-3 sm:p-4 h-full flex flex-col gap-2 sm:gap-3">
