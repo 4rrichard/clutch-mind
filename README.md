@@ -1,5 +1,5 @@
-# Clutch Mind — NBA Decision Assistant 
-## NBA Decision Assistant
+# Clutch Mind
+## Basketball Decision Exploration Tool
 
 **Clutch Mind** is an AI-powered decision-support prototype for basketball: users describe a game situation, and the app returns 5 recommended on-court decisions with explanations (powered by Gemini).
 The frontend is built with **React (Vite)**, **Tailwind CSS**, and **shadcn/ui**. 
@@ -9,28 +9,33 @@ The backend is a **Spring Boot** application that integrates with **Gemini API**
 ## 📂 Project Structure 
 ```text
 clutch-mind/
-├── backend/                  # Spring Boot backend (in progress)
+├── backend/                  # Spring Boot backend
 │   ├── src/main/java/
-│       ├── controller/           # RAWG + Gemini endpoints
-│       ├── service/              # RAWG service logic
-│       ├── model/                # DTOs for RAWG API
-│       ├── pom.xml
+│       ├── controller/       # Decision recommendation endpoints
+│       ├── service/          # Scenario processing & AI integration
+│       ├── model/            # Domain models & enums
+│       ├── dto/              # Scenario & decision DTOs
+│   ├── src/main/resources/
+│       ├── data/             # Clutch scenario JSON dataset
+│   ├── pom.xml
 │
-├── frontend/                 # React app (Vite + Tailwind + shadcn)
+├── frontend/                 # React application
 │   ├── src/
-│       ├── components/           # UI components (carousel, search, etc.)
-│       ├── context/              # GameProvider (global state)
-│       ├── data/games.js         # Temporary mock data
-│       ├── vite.config.js
+│       ├── components/       # Search form, cards, carousel, skeletons
+│       ├── blocks/           # Reusable UI blocks
+│       ├── pages/            # Main views
+│       ├── styles/           # Tailwind styling
+│   ├── vite.config.js
+│
 └── README.md
 ```
 --- 
 ## ✨ Features (So Far) 
 ### 🧩 Backend (Spring Boot) 
-- Implements a `RawgService` that calls the RAWG API.
-- Uses custom DTOs to map RAWG responses (`RawgGame`, `RawgResponse`).
-- Exposes basic GET endpoints in `RecommendationController`.
-- Early integration of **Gemini** for generating text-based recommendations.
+- Loads and processes historical clutch possession data from JSON
+- Groups play-by-play rows into structured scenarios
+- Selects a representative scenario for recommendation
+- Integrates Gemini API to generate explainable decision suggestions
 ### 🎨 Frontend (React) 
 - Search bar with smooth expand/collapse animation.
 - Game carousel with hover effects and dynamic layout.
@@ -56,14 +61,8 @@ Frontend runs at: ``` http://localhost:5173 ```
 ## 🔌 API Endpoints (Current) 
 | Endpoint | Method | Description | 
 |----------|--------|-------------| 
-| `/api/recommend?recommendation=cozy` | GET | Test endpoint returning AI-generated text | 
-| `/api/rawg/search?query=...` *(planned)* | GET | Search games via RAWG | 
-| `/api/ai/recommend` *(planned)* | POST | AI description → game recommendations | 
+| `/api/decision/recommend`| POST | Returns AI-generated decision suggestions for a clutch scenario | 
 
-Example usage in frontend: 
-```js
-const response = await fetch("/api/recommend?recommendation=cozy");
-``` 
 --- 
 ## 🧪 Technologies Used 
 ### Frontend 
@@ -74,30 +73,29 @@ const response = await fetch("/api/recommend?recommendation=cozy");
 - React Context
 ### Backend 
 - Spring Boot 3
-- RAWG API integration
 - Gemini API (early stage)
 - Java 21
 - Maven
 ---
 ## 📌 Current State / To-Do 
 ### ✔ Already Implemented 
-- Game search UI
-- Game carousel with dynamic styling
-- RAWG DTO and service
+- Scenario-based decision recommendations
+- Structured AI prompt design
+- Clean, focused frontend UI
 - Base Gemini integration
-- Basic backend endpoints
+- Loading and interaction states
 - Global context structure
 - Smooth search animation
 ### 🔜 Next Steps 
-- Create `.env.sample` 
-- Implement full RAWG search endpoint
-- Improve Gemini recommendation output
-- Add filtering & sorting
-- Add detailed game cards
+- SQL database for scalable scenario storage 
+- Scenario selection based on user input
+- Extended analysis across multiple games
+- User authentication and access control
+- TypeScript migration on the frontend
 - Optional: Add Docker later
 ---
 ## 📝 Notes 
 - No Docker setup yet
-— development uses local frontend + backend.
+— AI is used for interpretation and explanation, not raw data analysis.
 - Gemini integration is experimental and will evolve.
-- The frontend design is built to support future AI chat features.
+- Scenario selection is currently fixed for demonstration purposes.
