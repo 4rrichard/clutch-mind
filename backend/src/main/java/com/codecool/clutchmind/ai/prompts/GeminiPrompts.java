@@ -1,66 +1,91 @@
 package com.codecool.clutchmind.ai.prompts;
+import com.codecool.clutchmind.model.PossessionEvent;
 
-import com.codecool.clutchmind.dto.ScenarioSummaryDto;
+import java.util.List;
 
 public final class GeminiPrompts {
 
     private GeminiPrompts() {}
 
-    public static String recommendationPrompt(ScenarioSummaryDto s, String userInput) {
+    public static String recommendationPromptFromSimilar(List<PossessionEvent> similar, String userInput) {
         return """
-    You are a basketball decision-support assistant.
+You are a basketball decision-support assistant.
 
-    Scenario from historical clutch possession data:
-    - Period: %d
-    - Time window: %s to %s
-    - Start type: %s
-    - Score differential at start: %d (negative = trailing)
-    - Outcome label: %s
-    - Stats: 2PT %d/%d, 3PT %d/%d, TO=%d, OREB=%d, FoulsDrawn=%d
+You are given a list of historical clutch possessions similar to the user's situation.
 
-    Play-by-play:
-    %s
+Similar possessions (up to 50):
+%s
 
-    User note:
-    %s
+User message:
+%s
 
-    Task:
-    - Recommend exactly 5 on-court basketball decisions that fit THIS situation.
-    - Output ONLY valid JSON (no markdown, no backticks, no extra text).
+Task:
+- Recommend exactly 5 on-court basketball decisions that fit the user's situation.
+- Output ONLY valid JSON (no markdown, no backticks, no extra text).
 
-    JSON format:
+JSON format:
+{
+  "summary": "VERY short (max 60 characters). Headline-style. No commas.",
+  "recommendations": [
     {
-      "summary": "VERY short (max 60 characters). Headline-style. No commas.",
-      "recommendations": [
-        {
-          "title": "Decision name",
-          "summary": "Max 100 characters. Plain language.",
-          "detailed": "2-5 sentences, practical reasoning",
-          "confidence": "High|Medium|Low",
-          "tags": ["Clutch", "≤5s", "Tight D"]
-        }
-      ]
+      "title": "Decision name",
+      "summary": "Max 100 characters. Plain language.",
+      "detailed": "2-5 sentences, practical reasoning",
+      "confidence": "High|Medium|Low",
+      "tags": ["Clutch", "≤5s", "Tight D"]
+    }
+  ]
+}
+
+Rules:
+- Exactly 5 items in "recommendations"
+- No player names unless the user mentioned them
+- Tags must be 2–4 short items
+""".formatted(similar.toString(), userInput == null ? "" : userInput);
     }
 
+
+    public static String extractScenarioQueryPrompt(String userInput) {
+        return """
+    You are an information extractor for a basketball scenario search.
+    
+    Task:
+    - Convert the user's message into a structured scenario query for a clutch-possession database.
+    - Output ONLY valid JSON (no markdown, no backticks, no extra text).
+    
+    Defaults (use if missing):
+    - period: 4
+    - targetTime: 15
+    - minTime: 0
+    - maxTime: 30
+    - targetScore: 0
+    - minScore: -3
+    - maxScore: 3
+    
     Rules:
-    - Exactly 5 items in "recommendations"
-    - No player names unless the user mentioned them
-    - Tags must be 2–4 short items
-    """.formatted(
-                s.period(),
-                s.starttime(), s.endtime(),
-                s.starttype(),
-                s.startscoredifferential(),
-                s.outcome(),
-                s.fg2m(), s.fg2a(),
-                s.fg3m(), s.fg3a(),
-                s.turnovers(),
-                s.offensiverebounds(),
-                s.shootingfoulsdrawn(),
-                s.events(),
-                userInput == null ? "" : userInput
-        );
+    - "down by N" => targetScore = -N
+    - "up by N" => targetScore = +N
+    - "tied" => targetScore = 0
+    - "X seconds left" => targetTime = X
+    - "MM:SS left" => targetTime = MM*60 + SS
+    - If user mentions Q1/Q2/Q3/Q4 => period accordingly, otherwise keep default.
+    
+    Output JSON format:
+    {
+      "period": 4,
+      "minTime": 0,
+      "maxTime": 30,
+      "minScore": -3,
+      "maxScore": 3,
+      "targetTime": 15,
+      "targetScore": 0
     }
+    
+    User message:
+    %s
+    """.formatted(userInput == null ? "" : userInput);
+    }
+
 
 
     public static String chatPrompt(String userMessage) {
