@@ -1,6 +1,6 @@
-package com.codecool.whatnow.service;
+package com.codecool.clutchmind.service;
 
-import com.codecool.whatnow.ai.prompts.GeminiPrompts;
+import com.codecool.clutchmind.ai.prompts.GeminiPrompts;
 import com.google.genai.Client;
 import com.google.genai.types.GenerateContentResponse;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,15 +28,33 @@ public class GeminiService {
         return response.text();
     }
 
-    public String recommend(String userInput) {
-        String prompt = GeminiPrompts.recommendationPrompt(userInput);
-        GenerateContentResponse response = client.models
-                .generateContent(
+    public String recommend(String prompt) {
+        int attempts = 2;
+
+        for (int i = 1; i <= attempts; i++) {
+            try {
+                GenerateContentResponse response = client.models.generateContent(
                         "gemini-2.5-flash",
                         prompt,
                         null
                 );
+                return response.text();
 
-        return response.text();
+            } catch (com.google.genai.errors.ServerException e) {
+
+                if (i == attempts) {
+                    throw e;
+                }
+                try {
+                    Thread.sleep(600);
+                } catch (InterruptedException ie) {
+                    Thread.currentThread().interrupt();
+                    throw e;
+                }
+            }
+        }
+
+        throw new IllegalStateException("Unreachable");
     }
+
 }

@@ -1,4 +1,8 @@
 package com.codecool.clutchmind.dto;
 
-public class DecisionResponseDto {
-}
+import java.util.List;
+
+public record DecisionResponseDto(
+        String summary,
+        List<DecisionDto> recommendations
+) {}

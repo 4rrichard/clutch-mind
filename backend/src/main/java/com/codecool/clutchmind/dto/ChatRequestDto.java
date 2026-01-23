@@ -1,4 +1,3 @@
 package com.codecool.clutchmind.dto;
 
-public class ChatRequestDto {
-}
+public record ChatRequestDto(String message) {}

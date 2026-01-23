@@ -1,6 +1,6 @@
-package com.codecool.whatnow.controller;
+package com.codecool.clutchmind.controller;
 
-import com.codecool.whatnow.service.GeminiService;
+import com.codecool.clutchmind.service.GeminiService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,9 +21,4 @@ public class GeminiController {
         return geminiService.chat(message);
     }
 
-    @PostMapping("/recommend")
-    public String recommend(@RequestBody String userInput) {
-
-        return geminiService.recommend(userInput);
-    }
 }

@@ -1,4 +1,11 @@
 package com.codecool.clutchmind.dto;
 
-public class DecisionDto {
-}
+import java.util.List;
+
+public record DecisionDto(
+        String title,
+        String summary,
+        String detailed,
+        String confidence,
+        List<String> tags
+) {}
