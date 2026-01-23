@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class WhatNowApplication {
+public class ClutchMindApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(WhatNowApplication.class, args);
+		SpringApplication.run(ClutchMindApplication.class, args);
 	}
 
 }
