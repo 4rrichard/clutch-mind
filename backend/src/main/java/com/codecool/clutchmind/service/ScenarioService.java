@@ -23,8 +23,16 @@ public class ScenarioService {
             this.possessionJdbcRepository = possessionJdbcRepository;
         }
 
-        public List<PossessionEvent> analyzeDemoScenario() {
-            return possessionJdbcRepository.findSimilar(4, 0, 30, -3, 3, 15, 0);
-        }
+    public List<PossessionEvent> findSimilar(
+            int period,
+            int minTime,
+            int maxTime,
+            int minScore,
+            int maxScore,
+            int targetTime,
+            int targetScore
+    ) {
+        return possessionJdbcRepository.findSimilar(period, minTime, maxTime, minScore, maxScore, targetTime, targetScore);
+    }
 
 }
