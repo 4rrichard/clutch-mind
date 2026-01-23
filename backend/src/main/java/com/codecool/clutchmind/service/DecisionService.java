@@ -3,8 +3,11 @@ package com.codecool.clutchmind.service;
 import com.codecool.clutchmind.ai.prompts.GeminiPrompts;
 import com.codecool.clutchmind.dto.DecisionResponseDto;
 import com.codecool.clutchmind.dto.ScenarioSummaryDto;
+import com.codecool.clutchmind.model.PossessionEvent;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class DecisionService {
@@ -20,12 +23,8 @@ public class DecisionService {
     }
 
     public DecisionResponseDto recommend(String userInput) {
-        ScenarioSummaryDto scenario = scenarioService.getSampleScenario();
-
-        String prompt = GeminiPrompts.recommendationPrompt(
-                scenario,
-                userInput
-        );
+        List<PossessionEvent> similar = scenarioService.analyzeDemoScenario();
+        String prompt = GeminiPrompts.recommendationPromptFromSimilar(similar, userInput);
 
         String raw = geminiService.recommend(prompt);
 

@@ -3,6 +3,7 @@ package com.codecool.clutchmind.service;
 import com.codecool.clutchmind.dto.ScenarioSummaryDto;
 import com.codecool.clutchmind.model.Outcome;
 import com.codecool.clutchmind.model.PossessionEvent;
+import com.codecool.clutchmind.repository.PossessionJdbcRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.core.io.ClassPathResource;
@@ -16,78 +17,14 @@ import java.util.Map;
 @Service
 public class ScenarioService {
 
-    private final List<PossessionEvent> events;
+        private final PossessionJdbcRepository possessionJdbcRepository;
 
-    public ScenarioService(ObjectMapper objectMapper) {
-        this.events = loadEvents(objectMapper);
-    }
-
-    private List<PossessionEvent> loadEvents(ObjectMapper objectMapper) {
-        try {
-            ClassPathResource resource = new ClassPathResource("data/scenario_clutch.json");
-            try (InputStream is = resource.getInputStream()) {
-                return objectMapper.readValue(is, new TypeReference<List<PossessionEvent>>() {});
-            }
-        } catch (Exception e) {
-            throw new IllegalStateException("Failed to load scenario_clutch.json from resources", e);
-        }
-    }
-
-    public int getRowCount() {
-        return events.size();
-    }
-
-    public List<PossessionEvent> getAllEvents() {
-        return events;
-    }
-
-    private String scenarioKey(PossessionEvent e) {
-        return e.gameid() + "|" + e.period() + "|" + e.starttime() + "|" + e.endtime();
-    }
-
-    public ScenarioSummaryDto getSampleScenario() {
-        if (events.isEmpty()) {
-            throw new IllegalStateException("No events loaded.");
+        public ScenarioService(PossessionJdbcRepository possessionJdbcRepository) {
+            this.possessionJdbcRepository = possessionJdbcRepository;
         }
 
-        Map<String, PossessionEvent> firstRowPerScenario = new LinkedHashMap<>();
-
-        for (PossessionEvent e : events) {
-            firstRowPerScenario.putIfAbsent(scenarioKey(e), e);
+        public List<PossessionEvent> analyzeDemoScenario() {
+            return possessionJdbcRepository.findSimilar(4, 0, 30, -3, 3, 15, 0);
         }
-
-        PossessionEvent s = firstRowPerScenario.values().iterator().next();
-
-        Outcome outcome = determineOutcome(s);
-
-        return new ScenarioSummaryDto(
-                s.gameid(),
-                s.gamedate(),
-                s.opponent(),
-                s.period(),
-                s.starttime(),
-                s.endtime(),
-                s.starttype(),
-                s.startscoredifferential(),
-
-                s.fg2a(),
-                s.fg2m(),
-                s.fg3a(),
-                s.fg3m(),
-                s.turnovers(),
-                s.offensiverebounds(),
-                s.shootingfoulsdrawn(),
-
-                outcome,
-                s.events() == null ? "" : s.events().trim()
-        );
-    }
-
-    private Outcome determineOutcome(PossessionEvent s) {
-        if (s.turnovers() > 0) return Outcome.TURNOVER;
-        if (s.fg2m() + s.fg3m() > 0) return Outcome.SCORE;
-        if (s.fg2a() + s.fg3a() > 0) return Outcome.MISS;
-        return Outcome.OTHER;
-    }
 
 }
