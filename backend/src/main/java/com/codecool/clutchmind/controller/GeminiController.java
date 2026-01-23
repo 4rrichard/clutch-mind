@@ -22,8 +22,8 @@ public class GeminiController {
     }
 
     @PostMapping("/recommend")
-    public String recommend(@RequestBody String prompt) {
+    public String recommend(@RequestBody String userInput) {
 
-        return geminiService.recommend(prompt);
+        return geminiService.recommend(userInput);
     }
 }
