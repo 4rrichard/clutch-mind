@@ -49,7 +49,7 @@ public class PossessionJdbcRepository {
                         rs.getInt("fg3a"),
                         rs.getInt("fg3m"),
                         rs.getString("gamedate"),
-                        rs.getInt("gameid"),
+                        rs.getLong("gameid"),
                         rs.getInt("nonshootingfoulsthatresultedinfts"),
                         rs.getInt("offensiverebounds"),
                         rs.getString("opponent"),

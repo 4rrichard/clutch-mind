@@ -12,7 +12,7 @@ public record PossessionEvent(
         int fg3a,
         int fg3m,
         String gamedate,
-        int gameid,
+        long gameid,
         @JsonProperty("nonshootingfoulsthatresultedinfts")
         int nonShootingFoulsThatResultedInFts,
         int offensiverebounds,
