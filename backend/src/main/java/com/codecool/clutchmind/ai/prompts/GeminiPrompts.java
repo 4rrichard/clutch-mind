@@ -1,19 +1,17 @@
 package com.codecool.clutchmind.ai.prompts;
-import com.codecool.clutchmind.model.PossessionEvent;
-
-import java.util.List;
 
 public final class GeminiPrompts {
 
     private GeminiPrompts() {}
 
-    public static String recommendationPromptFromSimilar(List<PossessionEvent> similar, String userInput) {
+    public static String recommendationPromptFromSimilar(String similarJson, String userInput) {
+
         return """
 You are a basketball decision-support assistant.
 
 You are given a list of historical clutch possessions similar to the user's situation.
 
-Similar possessions (up to 50):
+Similar possessions (JSON array, up to 50):
 %s
 
 User message:
@@ -41,7 +39,9 @@ Rules:
 - Exactly 5 items in "recommendations"
 - No player names unless the user mentioned them
 - Tags must be 2–4 short items
-""".formatted(similar.toString(), userInput == null ? "" : userInput);
+
+If the JSON array is empty, note in your reasoning that there are no historical matches and base your recommendations on general best practice for this situation.
+""".formatted(similarJson, userInput == null ? "" : userInput);
     }
 
 

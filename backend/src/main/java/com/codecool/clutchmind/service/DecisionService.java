@@ -5,6 +5,7 @@ import com.codecool.clutchmind.dto.DecisionResponseDto;
 import com.codecool.clutchmind.dto.ScenarioQueryDto;
 import com.codecool.clutchmind.dto.ScenarioSummaryDto;
 import com.codecool.clutchmind.model.PossessionEvent;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,8 @@ public class DecisionService {
     public DecisionResponseDto recommend(String userInput) {
         ScenarioQueryDto query = extractQuery(userInput);
 
+        query = normalizeQuery(query);
+
         List<PossessionEvent> similar = scenarioService.findSimilar(
                 query.period(),
                 query.minTime(),
@@ -37,6 +40,27 @@ public class DecisionService {
         );
 
         return generateRecommendation(userInput, similar);
+    }
+
+    private ScenarioQueryDto normalizeQuery(ScenarioQueryDto q) {
+        int minTime = Math.min(q.minTime(), q.maxTime());
+        int maxTime = Math.max(q.minTime(), q.maxTime());
+        int minScore = Math.min(q.minScore(), q.maxScore());
+        int maxScore = Math.max(q.minScore(), q.maxScore());
+
+        int targetTime = q.targetTime();
+        if (targetTime < minTime) targetTime = minTime;
+        if (targetTime > maxTime) targetTime = maxTime;
+
+        return new ScenarioQueryDto(
+                q.period(),
+                minTime,
+                maxTime,
+                minScore,
+                maxScore,
+                targetTime,
+                q.targetScore()
+        );
     }
 
     private ScenarioQueryDto extractQuery(String userInput) {
@@ -52,7 +76,18 @@ public class DecisionService {
     }
 
     private DecisionResponseDto generateRecommendation(String userInput, List<PossessionEvent> similar) {
-        String prompt = GeminiPrompts.recommendationPromptFromSimilar(similar, userInput);
+        String similarJson;
+        try {
+            if (similar == null || similar.isEmpty()) {
+                similarJson = "[]";
+            } else {
+                similarJson = objectMapper.writeValueAsString(similar);
+            }
+        } catch (JsonProcessingException e) {
+            similarJson = "[]";
+        }
+
+        String prompt = GeminiPrompts.recommendationPromptFromSimilar(similarJson, userInput);
         String raw = geminiService.recommend(prompt);
         String clean = stripCodeFences(raw);
 
