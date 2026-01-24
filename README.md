@@ -86,10 +86,10 @@ Frontend runs at: ``` http://localhost:5173 ```
 - Loading and interaction states
 - Global context structure
 - Smooth search animation
-### 🔜 Next Steps 
 - SQL database for scalable scenario storage 
 - Scenario selection based on user input
 - Extended analysis across multiple games
+### 🔜 Next Steps 
 - User authentication and access control
 - TypeScript migration on the frontend
 - Optional: Add Docker later
@@ -98,4 +98,3 @@ Frontend runs at: ``` http://localhost:5173 ```
 - No Docker setup yet
 — AI is used for interpretation and explanation, not raw data analysis.
 - Gemini integration is experimental and will evolve.
-- Scenario selection is currently fixed for demonstration purposes.
